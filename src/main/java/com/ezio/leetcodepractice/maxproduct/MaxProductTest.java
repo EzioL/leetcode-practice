@@ -9,7 +9,8 @@ public class MaxProductTest {
 
     public static void main(String[] args) {
 
-        float[] data = new float[] {1F, -2F, 3F, 10F, -4F, 7F, 2F, -5F,-1F};
+        //float[] data = new float[] {1F, -2F, 3F, 10F, -4F, 7F, 2F, -5F, -19F, 3F, 10F, -4F, 7F, 2F, 8F, -100F, 1F};
+        float[] data = new float[] {3F, 10F, -4F, 7F, 2F, 8F, 0F,-100F, 1F};
         MaxProductProblem problem = new MaxProductProblem(data);
 
         System.err.println("----------------------");

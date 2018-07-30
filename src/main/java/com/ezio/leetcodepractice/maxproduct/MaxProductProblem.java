@@ -2,7 +2,10 @@ package com.ezio.leetcodepractice.maxproduct;
 
 import com.google.common.collect.Lists;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 import lombok.Data;
+import org.apache.commons.lang3.tuple.Pair;
 
 /**
  * Here be dragons
@@ -31,7 +34,7 @@ public class MaxProductProblem {
 
     private void solveMaxSum() {
         float tempSum = 0F;
-        List<Float> tempMaxList = Lists.newArrayList();
+        List<Pair<Float, Pair<Integer, Integer>>> tempMaxList = Lists.newArrayList();
         int start = 0;
         for (int i = 0; i < data.length; i++) {
             tempSum += data[i];
@@ -41,16 +44,22 @@ public class MaxProductProblem {
                 tempSum = data[i];
             }
             maxSum = tempSum;
-            tempMaxList.add(maxSum);
+            tempMaxList.add(Pair.of(maxSum, Pair.of(start, i)));
         }
-        maxSum = tempMaxList.stream().max(Float::compare).get();
-        tempSum = 0F;
-        for (int i = start; i < data.length; i++) {
-            tempSum = tempSum + data[i];
-            if (tempSum == maxSum) {
-                break;
-            }
+        maxSum = tempMaxList.stream().map(Pair::getLeft).max(Float::compare).get();
+        AtomicInteger tempStart = new AtomicInteger();
+        AtomicInteger tempEnd = new AtomicInteger();
+        tempMaxList.stream().filter(e -> e.getLeft() == maxSum).collect(Collectors.toList())
+            .forEach(e -> {
+                if (e.getRight().getRight() - e.getRight().getLeft() > tempEnd.get() - tempStart.get()) {
+                    tempStart.set(e.getRight().getLeft());
+                    tempEnd.set(e.getRight().getRight());
+                }
+            });
+
+        for (int i = tempStart.get(); i < tempEnd.get(); i++) {
             maxSumData.add(data[i]);
         }
+
     }
 }
