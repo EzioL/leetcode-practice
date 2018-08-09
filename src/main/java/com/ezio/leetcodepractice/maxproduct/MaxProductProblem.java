@@ -49,6 +49,8 @@ public class MaxProductProblem {
         maxSum = tempMaxList.stream().map(Pair::getLeft).max(Float::compare).get();
         AtomicInteger tempStart = new AtomicInteger();
         AtomicInteger tempEnd = new AtomicInteger();
+
+
         tempMaxList.stream().filter(e -> e.getLeft() == maxSum).collect(Collectors.toList())
             .forEach(e -> {
                 if (e.getRight().getRight() - e.getRight().getLeft() > tempEnd.get() - tempStart.get()) {
